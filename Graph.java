@@ -1,5 +1,3 @@
-//Remove this line when not in package. If you don't know if you're in the package, you're not.
-package com.pathfinding.main;
 
 //Modified from Graph.java from the package EDU.colorado.graphs
 
@@ -87,8 +85,9 @@ public class Graph implements Cloneable {
 		for (int i = 0; i < connections.length; i++){
 			int nextNeighbor = connections[i];
 			// Check if neighbor vertex is marked
-			if (!marked[nextNeighbor])
+			if (!marked[nextNeighbor]){
 				depthFirstRecurse(g, nextNeighbor, marked);
+			}
 		} 
 	}
 	
