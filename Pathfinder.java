@@ -1,12 +1,66 @@
 import java.util.Arrays;
+import java.util.Stack;
 public class Pathfinder{
 	public static void main(String args[]){
 	//	Graph g = randomGraph(5,4,100);
 	//	Graph.depthFirstPrint(g,0);
+		int a = 1;
+		int b = a;
+		a = 3;
+		System.out.println(b);
 	}
 
-	public int[] bruteForceShortestPath(){
+	public int[] bruteForceShortestPath(Graph g){
+		//marked makes sure that this path doesn't visit any vertex it already visited
+		boolean[] marked = new boolean[g.size()];
+
+		//path keeps track of which vertices are in the current path. thisPath[g.size()] holds the pathLength
+		Stack<Integer> s = new Stack<Integer>;
+		Path path = new Path(s,0);
+
+		bruteForceRecurse(g, 0, 0, marked);  
+	}
+	
+	public static Path bruteForceRecurse(Graph g, int v, Path path, boolean[] marked){
+		//this edge is the edge between last vertex in the path and v
+		int thisWeight = g.getWeight(path.peek(),v);
+		path thisPath = path.addVertex(v,thisWeight);
+
+		if(v = marked.size() - 1){  //if this vertex is the target
+			return thisPath;
+		}
+
+		Path thisPath = path;
+
+		marked[v] = true;
+		int[] connections = g.neighbors(v);
+		if(connections
 		
+
+		int minWeight = Integer.MAX_VALUE;
+		Path shortestPath;
+		Path tempPath;
+
+		// Traverse all neighboring vertices
+		for (int i = 0; i < connections.length; i++){
+			int nextNeighbor = connections[i];
+			// Check if neighbor vertex is marked
+			if (!marked[nextNeighbor]){
+				tempPath = bruteForceRecurse(g, nextNeighbor, thisPath, marked);
+				if(tempPath.getWeight < minWeight){
+					minWeight = tempPath.getWeight();
+					shortestPath = tempPath;
+				}
+			}
+
+		} 
+
+		//after all edges leaving from this vertex have been searched, remove it from marked
+		marked[v] = false;
+		
+		//add the shortest path onto the end of this path
+		thisPath.addPath(shortestPath.pop(),minWeight)
+		return thisPath; 
 	}	
 	
 
