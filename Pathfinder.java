@@ -2,53 +2,54 @@ import java.util.Arrays;
 import java.util.Stack;
 public class Pathfinder{
 	public static void main(String args[]){
-	//	Graph g = randomGraph(5,4,100);
-	//	Graph.depthFirstPrint(g,0);
-		int a = 1;
-		int b = a;
-		a = 3;
-		System.out.println(b);
+		Graph g = randomGraph(5,4,100);
+		Path p = bruteForceShortestPath(g);
+		Stack<Integer> s = p.getPath();
+		int stackSize = s.size();
+		for(int i = 0; i < stackSize; i++){
+			System.out.println(s.pop());
+		}
 	}
 
-	public int[] bruteForceShortestPath(Graph g){
+	public static Path bruteForceShortestPath(Graph g){
 		//marked makes sure that this path doesn't visit any vertex it already visited
 		boolean[] marked = new boolean[g.size()];
 
 		//path keeps track of which vertices are in the current path. thisPath[g.size()] holds the pathLength
-		Stack<Integer> s = new Stack<Integer>;
+		Stack<Integer> s = new Stack<Integer>();
+		s.push(0);
 		Path path = new Path(s,0);
 
-		bruteForceRecurse(g, 0, 0, marked);  
+		return bruteForceRecurse(g, 0, path, marked);  
 	}
 	
 	public static Path bruteForceRecurse(Graph g, int v, Path path, boolean[] marked){
 		//this edge is the edge between last vertex in the path and v
-		int thisWeight = g.getWeight(path.peek(),v);
-		path thisPath = path.addVertex(v,thisWeight);
+		Path thisPath = path.clone();
 
-		if(v = marked.size() - 1){  //if this vertex is the target
+		if(v == marked.length - 1){ //if this vertex is the target (target is always last node)
+			thisPath.addVertex(v,0);
 			return thisPath;
 		}
 
-		Path thisPath = path;
 
+		double maxWeight = (double)Integer.MAX_VALUE;
+		Path shortestPath = new Path(null,maxWeight);
 		marked[v] = true;
 		int[] connections = g.neighbors(v);
-		if(connections
-		
 
-		int minWeight = Integer.MAX_VALUE;
-		Path shortestPath;
 		Path tempPath;
+		boolean isDeadEnd = true;
 
 		// Traverse all neighboring vertices
 		for (int i = 0; i < connections.length; i++){
 			int nextNeighbor = connections[i];
 			// Check if neighbor vertex is marked
 			if (!marked[nextNeighbor]){
+				isDeadEnd = false;
 				tempPath = bruteForceRecurse(g, nextNeighbor, thisPath, marked);
-				if(tempPath.getWeight < minWeight){
-					minWeight = tempPath.getWeight();
+				if(tempPath.getWeight() < maxWeight){
+					maxWeight = tempPath.getWeight();
 					shortestPath = tempPath;
 				}
 			}
@@ -58,9 +59,12 @@ public class Pathfinder{
 		//after all edges leaving from this vertex have been searched, remove it from marked
 		marked[v] = false;
 		
-		//add the shortest path onto the end of this path
-		thisPath.addPath(shortestPath.pop(),minWeight)
-		return thisPath; 
+		//add this vertex to the shortest path
+		if(isDeadEnd) //if this is a dead end...
+			shortestPath.addVertex(v,(double)Integer.MAX_VALUE); //the path weight should be effectively infinite
+		else
+			shortestPath.addVertex(v,g.getWeight(v,shortestPath.peek()));
+		return shortestPath; 
 	}	
 	
 
