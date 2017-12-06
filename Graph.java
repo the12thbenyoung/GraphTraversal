@@ -16,11 +16,14 @@ public class Graph implements Cloneable {
 	
 	//Labels array: each source vertex i has a label contained in labels[i]
 	private Object[] labels;
-
+	
 	public Graph(double[][] adjacencies){
 		edges = adjacencies;
 		labels = new Object[adjacencies.length]; //all values initially null
 	}
+	
+	// **********VERTICES**********
+	
 	
 	// **********EDGES**********
 	
