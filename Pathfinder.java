@@ -2,23 +2,102 @@ import java.util.Arrays;
 import java.util.Stack;
 public class Pathfinder{
 	public static void main(String args[]){
-		int size = 10;
-		Graph g = randomGraph(size,4,100);
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
-				System.out.print(g.getWeight(i,j) + "\t");
-			}
-		System.out.println();
+		Graph g;	
+		Path p;
+		long[] runTimes;
+		int numTrials;
+		int numVerticesStart;
+	        int numVerticesEnd;
+		int numVerticesStep;	
+
+		//vary edges for random graph-------------------------------------------------------
+/*		numTrials = 10000;
+ *		int avgEdgesStart = 3;
+*	        int avgEdgesEnd = 8;
+*		int avgEdgesStep = 1;	
+*		int numVertices = 10;
+*		System.out.println("Brute force algorithm for random graph with numVertices = " + numVertices);		
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(avgEdgesEnd - avgEdgesStart)/avgEdgesStep + 1];
+*
+*		System.out.print("Average Edges");
+*		for(int avgEdges = avgEdgesStart; avgEdges <= avgEdgesEnd; avgEdges += avgEdgesStep){
+*			System.out.print("\t" + avgEdges);
+*			g = randomGraph(numVertices,avgEdges,1000);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++){
+*				if(i%(numTrials/10) == 0){  //makes 10 new graphs through the trial to average out runtimes
+*					g = randomGraph(numVertices,avgEdges,1000);
+*				}
+*				p = bruteForceShortestPath(g);
+*			}
+*			endTime = System.currentTimeMillis();
+			runTimes[(avgEdges - avdEdgesStart)/avgEdgesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*		System.out.println();
+*/		
+		//vary number of vertices for random graph-------------------------------------------------------
+/*		numTrials = 10000;
+ *		numVerticesStart = 7;
+*	        numVerticesEnd = 12;
+*		numVerticesStep = 1;	
+*		int avgEdges = 6;
+*		System.out.println("Brute force algorithm for random graph with avgEdges = " + avgEdges);
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+*
+*		System.out.print("Number of Vertices");
+*		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+*			System.out.print("\t" + numVertices);
+*			g = randomGraph(numVertices,avgEdges,1000);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++){
+*				if(i%(numTrials/10) == 0){  //makes 10 new graphs through the trial to average out runtimes
+*					g = randomGraph(numVertices,avgEdges,1000);
+*				}
+*				p = bruteForceShortestPath(g);
+*			}
+*			endTime = System.currentTimeMillis();
+			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*		System.out.println();
+*/	
+	
+		//vary number of vertices for linear graph-------------------------------------------------------
+		numVerticesStart = 100;
+	        numVerticesEnd = 700;
+		numVerticesStep = 100;	
+		numTrials = 10000;
+		System.out.println("Brute force algorithm for linear graph");
+		
+		long startTime,endTime;
+		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+
+		System.out.print("Number of Vertices");
+		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+			System.out.print("\t" + numVertices);
+			g = linearGraph(numVertices);
+			startTime = System.currentTimeMillis();
+			for(int i = 0; i < numTrials; i++)
+				p = bruteForceShortestPath(g);
+			endTime = System.currentTimeMillis();
+			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
 		}
-		Graph l = linearGraph(5);
-		Graph m = branchingGraph(5, 3);
-		Path p = bruteForceShortestPath(g);
-		int pathLength = p.getPath().size();
-		for(int i = 0; i < pathLength; i ++){
-			System.out.print(p.getPath().pop() + ",");
+		System.out.print("\nRun Time(ms)");
+		for(int i = 0; i < runTimes.length; i++){
+			System.out.print("\t" + runTimes[i]);	
 		}
 		System.out.println();
-		System.out.println(p.getWeight());
 	}
 	
 
