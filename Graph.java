@@ -81,10 +81,10 @@ public class Graph implements Cloneable {
 		
 		int[] connections = g.neighbors(v);
 		
-		// Traverse all neighboring vertices
+		// Traverse all reighboring vertices
 		for (int i = 0; i < connections.length; i++){
 			int nextNeighbor = connections[i];
-			// Check if neighbor vertex is marked
+			// Check if reighbor vertex is marked
 			if (!marked[nextNeighbor]){
 				depthFirstRecurse(g, nextNeighbor, marked);
 			}
