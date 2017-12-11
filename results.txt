@@ -1,0 +1,12 @@
+Brute force algorithm for random graph with numVertices = 10
+Average Edges	3	4	5	6	7	8
+Run Time(ms)	431	840	3709	9114	26562	107436
+
+Brute force algorithm for random graph with avgEdges = 6
+Number of Vertices	7	8	9	10	11	12
+Run Time(ms)	942	1935	3656	7795	24736	80942
+
+Brute force algorithm for linear graph
+Number of Vertices	100	200	300	400	500	600	700
+Run Time(ms)		768	2023	4357	7827	11090	16242	21177
+
