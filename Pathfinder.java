@@ -1,17 +1,170 @@
-package com.pathfinding.main;
+import java.util.Arrays;
+import java.util.Stack;
+public class Pathfinder{
+	public static void main(String args[]){
+		Graph g;	
+		Path p;
+		long[] runTimes;
+		int numTrials;
+		int numVerticesStart;
+	        int numVerticesEnd;
+		int numVerticesStep;	
 
-import java.util.concurrent.ThreadLocalRandom;
-
-public class Pathfinder {
-	public static void main(String[] args) {
-		//Graph l = linearGraph(5);
-		//dijkstra(l, 0, 4);
-		Graph m = branchingGraph(5, 3);
-		dijkstra(m, 0, 4);
-		//Graph r = randomGraph(5, 3, 10);
-		//dijkstra(r);
-	}
+		//vary edges for random graph-------------------------------------------------------
+/*		numTrials = 10000;
+ *		int avgEdgesStart = 3;
+*	        int avgEdgesEnd = 8;
+*		int avgEdgesStep = 1;	
+*		int numVertices = 10;
+*		System.out.println("Brute force algorithm for random graph with numVertices = " + numVertices);		
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(avgEdgesEnd - avgEdgesStart)/avgEdgesStep + 1];
+*
+*		System.out.print("Average Edges");
+*		for(int avgEdges = avgEdgesStart; avgEdges <= avgEdgesEnd; avgEdges += avgEdgesStep){
+*			System.out.print("\t" + avgEdges);
+*			g = randomGraph(numVertices,avgEdges,1000);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++){
+*				if(i%(numTrials/10) == 0){  //makes 10 new graphs through the trial to average out runtimes
+*					g = randomGraph(numVertices,avgEdges,1000);
+*				}
+*				p = bruteForceShortestPath(g);
+*			}
+*			endTime = System.currentTimeMillis();
+			runTimes[(avgEdges - avdEdgesStart)/avgEdgesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*		System.out.println();
+*/		
+		//vary number of vertices for random graph-------------------------------------------------------
+/*		numTrials = 10000;
+ *		numVerticesStart = 7;
+*	        numVerticesEnd = 12;
+*		numVerticesStep = 1;	
+*		int avgEdges = 6;
+*		System.out.println("Brute force algorithm for random graph with avgEdges = " + avgEdges);
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+*
+*		System.out.print("Number of Vertices");
+*		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+*			System.out.print("\t" + numVertices);
+*			g = randomGraph(numVertices,avgEdges,1000);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++){
+*				if(i%(numTrials/10) == 0){  //makes 10 new graphs through the trial to average out runtimes
+*					g = randomGraph(numVertices,avgEdges,1000);
+*				}
+*				p = bruteForceShortestPath(g);
+*			}
+*			endTime = System.currentTimeMillis();
+			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*		System.out.println();
+*/	
 	
+		//vary number of vertices for linear graph-------------------------------------------------------
+/*		numVerticesStart = 100;
+*	        numVerticesEnd = 700;
+*		numVerticesStep = 100;	
+*		numTrials = 10000;
+*		System.out.println("Brute force algorithm for linear graph");
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+*
+*		System.out.print("Number of Vertices");
+*		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+*			System.out.print("\t" + numVertices);
+*			g = linearGraph(numVertices);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++)
+*				p = bruteForceShortestPath(g);
+*			endTime = System.currentTimeMillis();
+*			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*
+*		System.out.println();
+*/
+		//vary dead-end edges (neighbors) per vertex for branched graph-------------------------------------------------------
+/*		numTrials = 1;
+*		int neighborsStart = 1;
+*		int neighborsEnd = 10;
+*		int neighborsStep = 1;	
+*		int numMainVertices = 100;
+*		System.out.println("Brute force algorithm for branching graph with numMainVertices = " + numMainVertices);		
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(neighborsEnd - neighborsStart)/neighborsStep + 1];
+*
+*		System.out.print("Dead-end Edges");
+*		for(int neighbors = neighborsStart; neighbors <= neighborsEnd; neighbors += neighborsStep){
+*			System.out.print("\t" + neighbors);
+*			g = branchingGraph(numMainVertices,neighbors);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++){
+*				p = bruteForceShortestPath(g);
+*			}
+*			endTime = System.currentTimeMillis();
+*			runTimes[(neighbors - neighborsStart)/neighborsStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*		System.out.println();
+*
+*/			
+		//vary number of main-path vertices for branching graph-------------------------------------------------------
+		numTrials = 10000;
+		numVerticesStart = 100;
+                numVerticesEnd = 700;
+		numVerticesStep = 100;	
+		int neighbors = 3;
+		System.out.println("Brute force algorithm for branching  graph with neighbors per main vertex = " + neighbors);
+		
+		long startTime,endTime;
+		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+
+		System.out.print("Number of Vertices");
+		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+			System.out.print("\t" + numVertices);
+			g = branchingGraph(numVertices,neighbors);
+			startTime = System.currentTimeMillis();
+			for(int i = 0; i < numTrials; i++){
+				p = bruteForceShortestPath(g);
+			}
+			endTime = System.currentTimeMillis();
+			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+		}
+		System.out.print("\nRun Time(ms)");
+		for(int i = 0; i < runTimes.length; i++){
+			System.out.print("\t" + runTimes[i]);	
+		}
+		System.out.println();
+		
+		}
+	
+
+	/*linearGraph
+	 *Creates a linear graph with only one path from start to end 
+	 *@Parameters:
+	 *size - the number of vertices in the path
+	 */
 	public static Graph linearGraph(int size) {
 		double[][] matrix = new double[size][size];
 		for (int i = 0; i < size; i++) {
@@ -23,25 +176,47 @@ public class Pathfinder {
 		return new Graph(matrix);
 	}
 	
+	/*branchingGraph
+	 *Creates a branching graph - similar to a linear graph except each vertex in the main path has 
+	 *lower weight edges leading to dead ends grafted onto it. Designed to confuse Dijkstra's algorithm
+	 *and decrease its efficiency
+	 *@Parameters:
+	 *size - the number of vertices in the main chain (the path from start to end vertex)
+	 *neighbors - the number of vertices grafted onto each vertex in the main chain
+	 */
 	public static Graph branchingGraph(int size, int neighbors) {
-		double[][] matrix = new double[size*2+neighbors][size*2+neighbors];
+		double[][] matrix = new double[size + neighbors*(size-1)+1][size + neighbors*(size-1)+1];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix.length; j++) {
 				matrix[i][j] = -1;
 			}
 		}
+		//first <size> vertices in graph are the main path, size + (i-1)*neighbors + 1 in the index of the main path vertex
+		//i's first neighbor
 		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+			for (int j = i; j < size; j++) {
 				if (j == i+1) {
-					matrix[i][j] = 1;
-					matrix[i][i*2+size] = 0;
-					matrix[i][i*2+size+1] = 0;
+					matrix[i][j] = 1;  //sets edges in main path to larger weight
+					for(int n = 0; n < neighbors; n++){
+						matrix[i][size + (i)*neighbors + 1 + n] = 0;  //sets edges to dead-end vertices to smaller weight
+					}                                                                                                     
 				}
 			}
 		}
 		return new Graph(matrix);
 	}
+
 	
+	
+
+
+	/*randomGraph - generates a pseudo-random graph
+	 *parameters:
+	 *size - the number of vertices in the graph
+	 *avgEdgesPerVertex - average number of edges leaving each vertex
+	 *maxEdgeWeight - maximum weight of any edge in the graph
+	 *returns: a Graph object
+	 */
 	public static Graph randomGraph(int size,int avgEdgesPerVertex, int maxEdgeWeight){
 		double[][] edges = new double[size][size];
 		for(int row = 0; row < size-1; row ++){
@@ -55,6 +230,10 @@ public class Pathfinder {
 					edges[row][col] = -1;	
 				}
 			}
+		}
+		//fills in last row with -1s (end node shouldn't have any paths leaving from it)
+		for(int col = 0; col < size; col++){
+			edges[size-1][col] = -1;
 		}
 
 		//checks how many edges lead to last (end of path) vertex
@@ -101,17 +280,11 @@ public class Pathfinder {
 			g.setLabel(i,"V"+i);
 		}
 		
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
-				System.out.print(edges[i][j] + "\t");
-			}
-			System.out.println();
-		}
-		
 		return g;
 	}
-	
-	public static int minDistance(Graph g, double[] distance, boolean[] marked)
+
+
+public static int minDistance(Graph g, double[] distance, boolean[] marked)
     {
         // Initialize min value
         double min = Integer.MAX_VALUE;
@@ -188,80 +361,60 @@ public class Pathfinder {
         // print the constructed distance array
         printSolution(g, distance, end);
     }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*public static void dijkstra(Graph g) {
-		double[][] matrix = new double[g.size()][g.size()];
-		double[] distance = new double[g.size()];
+
+
+
+
+
+	public static Path bruteForceShortestPath(Graph g){
+		//marked makes sure that this path doesn't visit any vertex it already visited
 		boolean[] marked = new boolean[g.size()];
-		int[] preD = new int[g.size()];
-		double min;
-		int nextNode = 0;
-		
-		for (int i = 0; i < matrix.length; i++) {
-			preD[i] = 0;
-			for (int j = 0; j < matrix.length; j++) {
-				matrix[i][j] = g.getWeight(i, j);
-				if (matrix[i][j] == -1) matrix[i][j] = 999;
-			}
+
+		return bruteForceRecurse(g, 0, marked);  
+	}
+	
+	public static Path bruteForceRecurse(Graph g, int v, boolean[] marked){
+		Stack<Integer> s = new Stack<Integer>();
+		s.push(v);
+		if(v == marked.length - 1){ //if this vertex is the target (target is always last node)
+			return new Path(s,0);
 		}
-		
-		distance = matrix[0];
-		distance[0] = 0;
-		marked[0] = true;
-		
-		for (int i = 0; i < matrix.length; i++) {
-			min = 999;
-			for (int j = 0; j < matrix.length; j++) {
-				if (min > distance[j] && marked[j] == false) { //if the values in 
-					min = distance[j];
-					nextNode = j;
+
+
+		marked[v] = true;
+		double maxWeight = (double)Integer.MAX_VALUE;
+		int[] connections = g.neighbors(v);
+
+		Path shortestPath = new Path(s,maxWeight);
+		Path tempPath;
+		boolean isDeadEnd = true;
+
+		// Traverse all neighboring vertices
+		for (int i = 0; i < connections.length; i++){
+			int nextNeighbor = connections[i];
+			// Check if neighbor vertex is marked
+			if (!marked[nextNeighbor]){
+				isDeadEnd = false;
+				tempPath = bruteForceRecurse(g, nextNeighbor, marked);
+				//if this new path is shorter than the current shortest one, make it the new shortest one
+				if(tempPath.getWeight() + g.getWeight(v,nextNeighbor) < maxWeight){
+					maxWeight = tempPath.getWeight() + g.getWeight(v,nextNeighbor);
+					shortestPath = tempPath;
 				}
 			}
-			marked[nextNode] = true;
-			
-			for (int k = 0; k < matrix.length; k++) {
-				if (marked[k] == false) {
-					if (min + matrix[nextNode][k] < distance[k]) {
-						distance[k] = min + matrix[nextNode][k];
-						preD[k] = nextNode;
-					}
-				}
-			}
+
+		} 
+
+		//after all edges leaving from this vertex have been searched, remove it from marked
+		marked[v] = false;
+		
+		//add this vertex to the shortest path
+		if(isDeadEnd) //if this is a dead end...
+			shortestPath.addVertex(v,(double)Integer.MAX_VALUE); //the path weight should be effectively infinite
+		else{
+			int nextVertex = shortestPath.peek();
+			shortestPath.addVertex(v,g.getWeight(v,nextVertex)); //adds the current vertex and the weight of the edge between it and the first vertex in the shortest path to the end
 		}
-		for (int i = 0; i < matrix.length; i++) {
-			System.out.print(distance[i] + " ");
-		}
-		System.out.println();
-		for (int i = 0; i < matrix.length; i++) {
-			int j;
-			System.out.print(i);
-			j = i;
-			do {
-				j = preD[j];
-				System.out.print(" <--" + j);
-			} while (j != 0);
-			System.out.println();
-		}
-	}*/
-}
+		return shortestPath; 
+	}
+}	

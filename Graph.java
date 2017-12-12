@@ -1,5 +1,3 @@
-//Remove this line when not in package. If you don't know if you're in the package, you're not.
-package com.pathfinding.main;
 
 //Modified from Graph.java from the package EDU.colorado.graphs
 
@@ -16,14 +14,11 @@ public class Graph implements Cloneable {
 	
 	//Labels array: each source vertex i has a label contained in labels[i]
 	private Object[] labels;
-	
+
 	public Graph(double[][] adjacencies){
 		edges = adjacencies;
 		labels = new Object[adjacencies.length]; //all values initially null
 	}
-	
-	// **********VERTICES**********
-	
 	
 	// **********EDGES**********
 	
@@ -86,12 +81,13 @@ public class Graph implements Cloneable {
 		
 		int[] connections = g.neighbors(v);
 		
-		// Traverse all neighboring vertices
+		// Traverse all reighboring vertices
 		for (int i = 0; i < connections.length; i++){
 			int nextNeighbor = connections[i];
-			// Check if neighbor vertex is marked
-			if (!marked[nextNeighbor])
+			// Check if reighbor vertex is marked
+			if (!marked[nextNeighbor]){
 				depthFirstRecurse(g, nextNeighbor, marked);
+			}
 		} 
 	}
 	
