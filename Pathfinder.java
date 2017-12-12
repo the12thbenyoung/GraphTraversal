@@ -417,4 +417,4 @@ public static int minDistance(Graph g, double[] distance, boolean[] marked)
 		}
 		return shortestPath; 
 	}
-}	
+}
