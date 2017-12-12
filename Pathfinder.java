@@ -74,11 +74,68 @@ public class Pathfinder{
 */	
 	
 		//vary number of vertices for linear graph-------------------------------------------------------
-		numVerticesStart = 100;
-	        numVerticesEnd = 700;
-		numVerticesStep = 100;	
+/*		numVerticesStart = 100;
+*	        numVerticesEnd = 700;
+*		numVerticesStep = 100;	
+*		numTrials = 10000;
+*		System.out.println("Brute force algorithm for linear graph");
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+*
+*		System.out.print("Number of Vertices");
+*		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+*			System.out.print("\t" + numVertices);
+*			g = linearGraph(numVertices);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++)
+*				p = bruteForceShortestPath(g);
+*			endTime = System.currentTimeMillis();
+*			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*
+*		System.out.println();
+*/
+		//vary dead-end edges (neighbors) per vertex for branched graph-------------------------------------------------------
+/*		numTrials = 1;
+*		int neighborsStart = 1;
+*		int neighborsEnd = 10;
+*		int neighborsStep = 1;	
+*		int numMainVertices = 100;
+*		System.out.println("Brute force algorithm for branching graph with numMainVertices = " + numMainVertices);		
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(neighborsEnd - neighborsStart)/neighborsStep + 1];
+*
+*		System.out.print("Dead-end Edges");
+*		for(int neighbors = neighborsStart; neighbors <= neighborsEnd; neighbors += neighborsStep){
+*			System.out.print("\t" + neighbors);
+*			g = branchingGraph(numMainVertices,neighbors);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++){
+*				p = bruteForceShortestPath(g);
+*			}
+*			endTime = System.currentTimeMillis();
+*			runTimes[(neighbors - neighborsStart)/neighborsStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*		System.out.println();
+*
+*/			
+		//vary number of main-path vertices for branching graph-------------------------------------------------------
 		numTrials = 10000;
-		System.out.println("Brute force algorithm for linear graph");
+		numVerticesStart = 100;
+                numVerticesEnd = 700;
+		numVerticesStep = 100;	
+		int neighbors = 3;
+		System.out.println("Brute force algorithm for branching  graph with neighbors per main vertex = " + neighbors);
 		
 		long startTime,endTime;
 		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
@@ -86,10 +143,11 @@ public class Pathfinder{
 		System.out.print("Number of Vertices");
 		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
 			System.out.print("\t" + numVertices);
-			g = linearGraph(numVertices);
+			g = branchingGraph(numVertices,neighbors);
 			startTime = System.currentTimeMillis();
-			for(int i = 0; i < numTrials; i++)
+			for(int i = 0; i < numTrials; i++){
 				p = bruteForceShortestPath(g);
+			}
 			endTime = System.currentTimeMillis();
 			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
 		}
@@ -98,11 +156,12 @@ public class Pathfinder{
 			System.out.print("\t" + runTimes[i]);	
 		}
 		System.out.println();
-	}
+		
+		}
 	
 
 	/*linearGraph
-	 *Creates a linear graph with only one path from start to end
+	 *Creates a linear graph with only one path from start to end 
 	 *@Parameters:
 	 *size - the number of vertices in the path
 	 */
@@ -126,18 +185,21 @@ public class Pathfinder{
 	 *neighbors - the number of vertices grafted onto each vertex in the main chain
 	 */
 	public static Graph branchingGraph(int size, int neighbors) {
-		double[][] matrix = new double[size*2+neighbors][size*2+neighbors];
+		double[][] matrix = new double[size + neighbors*(size-1)+1][size + neighbors*(size-1)+1];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix.length; j++) {
 				matrix[i][j] = -1;
 			}
 		}
+		//first <size> vertices in graph are the main path, size + (i-1)*neighbors + 1 in the index of the main path vertex
+		//i's first neighbor
 		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+			for (int j = i; j < size; j++) {
 				if (j == i+1) {
-					matrix[i][j] = 1;
-					matrix[i][i*2+size] = 0;
-					matrix[i][i*2+size+1] = 0;
+					matrix[i][j] = 1;  //sets edges in main path to larger weight
+					for(int n = 0; n < neighbors; n++){
+						matrix[i][size + (i)*neighbors + 1 + n] = 0;  //sets edges to dead-end vertices to smaller weight
+					}                                                                                                     
 				}
 			}
 		}
