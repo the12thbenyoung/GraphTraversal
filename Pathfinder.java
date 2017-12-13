@@ -11,40 +11,43 @@ public class Pathfinder{
 		int numVerticesStep;	
 
 		//vary edges for random graph-------------------------------------------------------
-/*		numTrials = 10000;
- *		int avgEdgesStart = 3;
-*	        int avgEdgesEnd = 8;
-*		int avgEdgesStep = 1;	
-*		int numVertices = 10;
-*		System.out.println("Brute force algorithm for random graph with numVertices = " + numVertices);		
-*		
-*		long startTime,endTime;
-*		runTimes = new long[(avgEdgesEnd - avgEdgesStart)/avgEdgesStep + 1];
-*
-*		System.out.print("Average Edges");
-*		for(int avgEdges = avgEdgesStart; avgEdges <= avgEdgesEnd; avgEdges += avgEdgesStep){
-*			System.out.print("\t" + avgEdges);
-*			g = randomGraph(numVertices,avgEdges,1000);
-*			startTime = System.currentTimeMillis();
-*			for(int i = 0; i < numTrials; i++){
-*				if(i%(numTrials/10) == 0){  //makes 10 new graphs through the trial to average out runtimes
-*					g = randomGraph(numVertices,avgEdges,1000);
-*				}
-*				p = bruteForceShortestPath(g);
-*			}
-*			endTime = System.currentTimeMillis();
-			runTimes[(avgEdges - avdEdgesStart)/avgEdgesStep] = endTime - startTime;
-*		}
-*		System.out.print("\nRun Time(ms)");
-*		for(int i = 0; i < runTimes.length; i++){
-*			System.out.print("\t" + runTimes[i]);	
-*		}
-*		System.out.println();
-*/		
+		numTrials = 10000;
+		int avgEdgesStart = 3;
+                int avgEdgesEnd = 8;
+		int avgEdgesStep = 1;	
+		int numVertices = 10;
+		System.out.println("Brute force algorithm for random graph with numVertices = " + numVertices);		
+		
+		long startTime,endTime;
+		runTimes = new long[(avgEdgesEnd - avgEdgesStart)/avgEdgesStep + 1];
+
+		System.out.print("Average Edges");
+		for(int avgEdges = avgEdgesStart; avgEdges <= avgEdgesEnd; avgEdges += avgEdgesStep){
+			System.out.print("\t" + avgEdges);
+	//		g = randomGraph(numVertices,avgEdges,1000);
+			DijkstraGraph dg = DijkstraGraph.RandomGraph(numVertices,avgEdges,1000);
+			startTime = System.currentTimeMillis();
+			for(int i = 0; i < numTrials; i++){
+				if(i%(numTrials/10) == 0){  //makes 10 new graphs through the trial to average out runtimes
+				//	g = randomGraph(numVertices,avgEdges,1000);
+					dg = DijkstraGraph.RandomGraph(numVertices,avgEdges,1000);
+				}
+//				p = bruteForceShortestPath(g);
+				dg.dijkstra(dg.size);
+			}
+			endTime = System.currentTimeMillis();
+			runTimes[(avgEdges - avgEdgesStart)/avgEdgesStep] = endTime - startTime;
+		}
+		System.out.print("\nRun Time(ms)");
+		for(int i = 0; i < runTimes.length; i++){
+			System.out.print("\t" + runTimes[i]);	
+		}
+		System.out.println();
+		
 		//vary number of vertices for random graph-------------------------------------------------------
-/*		numTrials = 10000;
- *		numVerticesStart = 7;
-*	        numVerticesEnd = 12;
+/*   	   	numTrials = 10000;
+*		numVerticesStart = 7;
+*                numVerticesEnd = 12;
 *		numVerticesStep = 1;	
 *		int avgEdges = 6;
 *		System.out.println("Brute force algorithm for random graph with avgEdges = " + avgEdges);
@@ -56,51 +59,56 @@ public class Pathfinder{
 *		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
 *			System.out.print("\t" + numVertices);
 *			g = randomGraph(numVertices,avgEdges,1000);
+*	//			DijkstraGraph dg = DijkstraGraph.RandomGraph(numVertices,avgEdges,1000);
 *			startTime = System.currentTimeMillis();
 *			for(int i = 0; i < numTrials; i++){
 *				if(i%(numTrials/10) == 0){  //makes 10 new graphs through the trial to average out runtimes
 *					g = randomGraph(numVertices,avgEdges,1000);
+*				//	dg = DijkstraGraph.RandomGraph(numVertices,avgEdges,1000);
 *				}
 *				p = bruteForceShortestPath(g);
+*	//				dg.dijkstra(dg.size);
 *			}
 *			endTime = System.currentTimeMillis();
-			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+*			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
 *		}
 *		System.out.print("\nRun Time(ms)");
 *		for(int i = 0; i < runTimes.length; i++){
 *			System.out.print("\t" + runTimes[i]);	
 *		}
 *		System.out.println();
-*/	
+*/		
+	
 	
 		//vary number of vertices for linear graph-------------------------------------------------------
-		numVerticesStart = 100;
-                numVerticesEnd = 700;
-		numVerticesStep = 100;	
-		numTrials = 10000;
-		System.out.println("Dijkstra's algorithm for linear graph");
-		
-		long startTime,endTime;
-		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
-
-		System.out.print("Number of Vertices");
-		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
-			System.out.print("\t" + numVertices);
-		//	g = linearGraph(numVertices);
-			DijkstraGraph dg = DijkstraGraph.LinearGraph(numVertices);
-			startTime = System.currentTimeMillis();
-			for(int i = 0; i < numTrials; i++)
-				//p = bruteForceShortestPath(g);
-				dg.dijkstra(dg.size);
-			endTime = System.currentTimeMillis();
-			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
-		}
-		System.out.print("\nRun Time(ms)");
-		for(int i = 0; i < runTimes.length; i++){
-			System.out.print("\t" + runTimes[i]);	
-		}
-
-		System.out.println();
+/*		numVerticesStart = 100;
+*                numVerticesEnd = 700;
+*		numVerticesStep = 100;	
+*		numTrials = 10000;
+*		System.out.println("Dijkstra's algorithm for linear graph");
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+*
+*		System.out.print("Number of Vertices");
+*		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+*			System.out.print("\t" + numVertices);
+*		//	g = linearGraph(numVertices);
+*			DijkstraGraph dg = DijkstraGraph.LinearGraph(numVertices);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++)
+*				//p = bruteForceShortestPath(g);
+*				dg.dijkstra(dg.size);
+*			endTime = System.currentTimeMillis();
+*			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*
+*		System.out.println();
+*/		
 
 		//vary dead-end edges (neighbors) per vertex for branched graph-------------------------------------------------------
 /*		numTrials = 10000;
@@ -292,95 +300,30 @@ public class Pathfinder{
 	}
 
 
-public static int minDistance(Graph g, double[] distance, boolean[] marked)
-    {
-        // Initialize min value
-        double min = Integer.MAX_VALUE;
-        int minIndex = -1;
- 
-        for (int i = 0; i < g.size(); i++)
-            if (distance[i] != -1 && marked[i] == false && distance[i] <= min) {
-                min = distance[i];
-                minIndex = i;
-            }
- 
-        return minIndex;
-    }
- 
-    // A utility function to print the constructed distance array
-    public static void printSolution(Graph g, double[] distance, int end)
-    {
-        System.out.println("Vertex\tDistance from Source");
-        for (int i = 0; i <= end; i++)
-            System.out.println(i+"\t"+distance[i]);
-    }
- 
-    // Function that implements Dijkstra's single source shortest path
-    // algorithm for a graph represented using adjacency matrix
-    // representation
-    public static void dijkstra(Graph g, int start, int end)
-    {
-    	double[][] matrix = new double[g.size()][g.size()];
-    	for (int i = 0; i < matrix.length; i++) {
-    		for (int j = 0; j < matrix.length; j++) {
-    			matrix[i][j] = g.getWeight(i, j);
-    		}
-    	}
-    	
-        double distance[] = new double[g.size()]; // The output array. distance[i] will hold
-                                 // the shortest distance from start to i
- 
-        // marked[i] will true if vertex i is included in shortest
-        // path tree or shortest distance from start to i is finalized
-        boolean[] marked = new boolean[g.size()];
- 
-        // Initialize all distances as INFINITE and stpSet[] as false
-        for (int i = 0; i < g.size(); i++)
-        {
-            distance[i] = Integer.MAX_VALUE;
-            marked[i] = false;
-        }
- 
-        // distance of source vertex from itself is always 0
-        distance[start] = 0;
- 
-        // Find shortest path for only the vertices
-        for (int i = 0; i < end; i++)
-        {
-        		// Pick the minimum distance vertex from the set of vertices
-	            // not yet processed. u is always equal to start in first
-	            // iteration.
-	            int u = minDistance(g, distance, marked);
-	 
-	            // Mark the picked vertex as processed
-	            marked[u] = true;
-	 
-	            // Update distance value of the adjacent vertices of the
-	            // picked vertex.
-	            for (int v = 0; v < g.size(); v++) {
-	                // Update distance[v] only if is not in marked, there is an
-	                // edge from u to v, and total weight of path from start to
-	                // v through u is smaller than current value of distance[v]
-	                if (!marked[v] && matrix[u][v]!=-1 && distance[u] != Integer.MAX_VALUE && distance[u]+matrix[u][v] < distance[v])
-	                    	distance[v] = distance[u] + matrix[u][v];
-	            }
-        	}
- 
-        // print the constructed distance array
-        printSolution(g, distance, end);
-    }
 
-
-
-
-
+	/*bruteForceShortestPath:
+	 *A wrapper class that just initializes the empty marked array and then calls bruteForceRecurse
+	 *Returns a Path object containing the shortest path through the graph and its weight
+	 *@parameters:
+	 *Graph g - the graph to be traversed
+	 */
 	public static Path bruteForceShortestPath(Graph g){
 		//marked makes sure that this path doesn't visit any vertex it already visited
 		boolean[] marked = new boolean[g.size()];
 
 		return bruteForceRecurse(g, 0, marked);  
 	}
-	
+
+
+	/*bruteForceRecurse:
+	 *The process by which the brute force method works. Is called for each vertex in each attempted path through the graph
+	 *Returns a path object containing the shortest path from the current vertex to the end and its weight.
+	 *If there is not a path from this vertex to the end, the path weight will be Integer.MAX_VALUE
+	 *@parameters:
+	 *Graph g - the graph currently being traversed
+	 *int v - the current vertex being examined
+	 *boolean[] marked - an array indicating which vertices have already been visited by the current path
+	 */	
 	public static Path bruteForceRecurse(Graph g, int v, boolean[] marked){
 		Stack<Integer> s = new Stack<Integer>();
 		s.push(v);
