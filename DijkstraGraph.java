@@ -1,4 +1,3 @@
-package com.sssp.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +9,7 @@ public class DijkstraGraph {
 	
 	public DijkstraGraph(Double[][] m) {
 		this.matrix = m;
-		Graph.size = m.length;
+		DijkstraGraph.size = m.length;
 	}
 	
 	public static DijkstraGraph LinearGraph(int size) {
@@ -21,7 +20,6 @@ public class DijkstraGraph {
 				else matrix[i][j] = null;
 			}
 		}
-		printMatrix(matrix);
 		return new DijkstraGraph(matrix);
 	}
 	
@@ -43,7 +41,6 @@ public class DijkstraGraph {
 			}
 		}
 		
-		printMatrix(matrix);
 		return new DijkstraGraph(matrix);
 	}
 	
@@ -95,12 +92,11 @@ public class DijkstraGraph {
 			else matrix[0][2] = (double)(int)(Math.random()*maxEdgeWeight);
 			edgesFromFirstVertex++;
 		}
-		printMatrix(matrix);
 		return new DijkstraGraph(matrix);
 	}
 		
 	public void dijkstra(int endVertex) {
-		int startTime = (int) System.currentTimeMillis();
+		//int startTime = (int) System.currentTimeMillis();
 		Double[] path = new Double[size];	// initially null: infinity
 		Integer[] previous = new Integer[size];
 		path[0] = 0.0;
@@ -119,8 +115,8 @@ public class DijkstraGraph {
 			}
 		}
 		int endTime = (int) System.currentTimeMillis();
-		System.out.println("Runtime: " + (endTime - startTime) + "ms");
-		System.out.println("Total Path Weight: " + path[endVertex]);
+		//System.out.println("Runtime: " + (endTime - startTime) + "ms");
+		//System.out.println("Total Path Weight: " + path[endVertex]);
 	}
 	
 	public void relaxEdge(Double[] path, Integer[] previous,

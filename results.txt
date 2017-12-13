@@ -13,3 +13,8 @@ Run Time(ms)		768	2023	4357	7827	11090	16242	21177
 Brute force algorithm for branching graph with numMainVertices = 100
 Dead-end Edges	1	2	3	4	5	6	7	8	9	10
 Run Time(ms)	2098	3878	6736	9783	14240	18840	24460	29936	36537	43646
+
+Brute force algorithm for branching  graph with neighbors per main vertex = 3
+Number of Vertices	100	200	300	400	500	600	700
+Run Time(ms)	6976	24559	52087	90846	137793	195624	274201
+

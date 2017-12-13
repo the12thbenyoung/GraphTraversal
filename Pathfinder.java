@@ -74,39 +74,41 @@ public class Pathfinder{
 */	
 	
 		//vary number of vertices for linear graph-------------------------------------------------------
-/*		numVerticesStart = 100;
-*	        numVerticesEnd = 700;
-*		numVerticesStep = 100;	
-*		numTrials = 10000;
-*		System.out.println("Brute force algorithm for linear graph");
-*		
-*		long startTime,endTime;
-*		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
-*
-*		System.out.print("Number of Vertices");
-*		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
-*			System.out.print("\t" + numVertices);
-*			g = linearGraph(numVertices);
-*			startTime = System.currentTimeMillis();
-*			for(int i = 0; i < numTrials; i++)
-*				p = bruteForceShortestPath(g);
-*			endTime = System.currentTimeMillis();
-*			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
-*		}
-*		System.out.print("\nRun Time(ms)");
-*		for(int i = 0; i < runTimes.length; i++){
-*			System.out.print("\t" + runTimes[i]);	
-*		}
-*
-*		System.out.println();
-*/
+		numVerticesStart = 100;
+                numVerticesEnd = 700;
+		numVerticesStep = 100;	
+		numTrials = 10000;
+		System.out.println("Dijkstra's algorithm for linear graph");
+		
+		long startTime,endTime;
+		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+
+		System.out.print("Number of Vertices");
+		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+			System.out.print("\t" + numVertices);
+		//	g = linearGraph(numVertices);
+			DijkstraGraph dg = DijkstraGraph.LinearGraph(numVertices);
+			startTime = System.currentTimeMillis();
+			for(int i = 0; i < numTrials; i++)
+				//p = bruteForceShortestPath(g);
+				dg.dijkstra(dg.size);
+			endTime = System.currentTimeMillis();
+			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+		}
+		System.out.print("\nRun Time(ms)");
+		for(int i = 0; i < runTimes.length; i++){
+			System.out.print("\t" + runTimes[i]);	
+		}
+
+		System.out.println();
+
 		//vary dead-end edges (neighbors) per vertex for branched graph-------------------------------------------------------
-/*		numTrials = 1;
+/*		numTrials = 10000;
 *		int neighborsStart = 1;
 *		int neighborsEnd = 10;
 *		int neighborsStep = 1;	
 *		int numMainVertices = 100;
-*		System.out.println("Brute force algorithm for branching graph with numMainVertices = " + numMainVertices);		
+*		System.out.println("Dijkstra's algorithm for branching graph with numMainVertices = " + numMainVertices);		
 *		
 *		long startTime,endTime;
 *		runTimes = new long[(neighborsEnd - neighborsStart)/neighborsStep + 1];
@@ -114,10 +116,12 @@ public class Pathfinder{
 *		System.out.print("Dead-end Edges");
 *		for(int neighbors = neighborsStart; neighbors <= neighborsEnd; neighbors += neighborsStep){
 *			System.out.print("\t" + neighbors);
-*			g = branchingGraph(numMainVertices,neighbors);
+*			//g = branchingGraph(numMainVertices,neighbors);
+*			DijkstraGraph dg = DijkstraGraph.BranchingGraph(numMainVertices,neighbors);
 *			startTime = System.currentTimeMillis();
 *			for(int i = 0; i < numTrials; i++){
-*				p = bruteForceShortestPath(g);
+*		//		p = bruteForceShortestPath(g);
+*				dg.dijkstra(dg.size);
 *			}
 *			endTime = System.currentTimeMillis();
 *			runTimes[(neighbors - neighborsStart)/neighborsStep] = endTime - startTime;
@@ -127,39 +131,43 @@ public class Pathfinder{
 *			System.out.print("\t" + runTimes[i]);	
 *		}
 *		System.out.println();
-*
-*/			
+*/
+			
 		//vary number of main-path vertices for branching graph-------------------------------------------------------
-		numTrials = 10000;
-		numVerticesStart = 100;
-                numVerticesEnd = 700;
-		numVerticesStep = 100;	
-		int neighbors = 3;
-		System.out.println("Brute force algorithm for branching  graph with neighbors per main vertex = " + neighbors);
-		
-		long startTime,endTime;
-		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
-
-		System.out.print("Number of Vertices");
-		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
-			System.out.print("\t" + numVertices);
-			g = branchingGraph(numVertices,neighbors);
-			startTime = System.currentTimeMillis();
-			for(int i = 0; i < numTrials; i++){
-				p = bruteForceShortestPath(g);
-			}
-			endTime = System.currentTimeMillis();
-			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
-		}
-		System.out.print("\nRun Time(ms)");
-		for(int i = 0; i < runTimes.length; i++){
-			System.out.print("\t" + runTimes[i]);	
-		}
-		System.out.println();
-		
-		}
-	
-
+/*		numTrials = 1000;
+*	
+*		numVerticesStart = 100;
+*                numVerticesEnd = 700;
+*		numVerticesStep = 100;	
+*		int neighbors = 3;
+*		System.out.println("Brute force algorithm for branching  graph with neighbors per main vertex = " + neighbors);
+*		//System.out.println("Dijkstra's algorithm for branching  graph with neighbors per main vertex = " + neighbors);
+*		
+*		long startTime,endTime;
+*		runTimes = new long[(numVerticesEnd - numVerticesStart)/numVerticesStep + 1];
+*
+*		System.out.print("Number of Vertices");
+*		for(int numVertices = numVerticesStart; numVertices <= numVerticesEnd; numVertices += numVerticesStep){
+*			System.out.print("\t" + numVertices);
+*			g = branchingGraph(numVertices,neighbors);
+*			//DijkstraGraph dg = DijkstraGraph.BranchingGraph(numVertices,neighbors);
+*			startTime = System.currentTimeMillis();
+*			for(int i = 0; i < numTrials; i++){
+*			//	dg.dijkstra(dg.size);
+*				p = bruteForceShortestPath(g);
+*			}
+*			endTime = System.currentTimeMillis();
+*			runTimes[(numVertices - numVerticesStart)/numVerticesStep] = endTime - startTime;
+*		}
+*		System.out.print("\nRun Time(ms)");
+*		for(int i = 0; i < runTimes.length; i++){
+*			System.out.print("\t" + runTimes[i]);	
+*		}
+*		System.out.println();
+*		
+*		
+*/	
+	}
 	/*linearGraph
 	 *Creates a linear graph with only one path from start to end 
 	 *@Parameters:
