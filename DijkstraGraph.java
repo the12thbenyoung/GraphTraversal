@@ -1,5 +1,3 @@
-package com.sssp.main;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
@@ -10,7 +8,7 @@ public class DijkstraGraph {
 	
 	public DijkstraGraph(Double[][] m) {
 		this.matrix = m;
-		Graph.size = m.length;
+		DijkstraGraph.size = m.length;
 	}
 	
 	public static DijkstraGraph LinearGraph(int size) {
@@ -21,7 +19,7 @@ public class DijkstraGraph {
 				else matrix[i][j] = null;
 			}
 		}
-		printMatrix(matrix);
+		//printMatrix(matrix);
 		return new DijkstraGraph(matrix);
 	}
 	
@@ -43,7 +41,7 @@ public class DijkstraGraph {
 			}
 		}
 		
-		printMatrix(matrix);
+		//printMatrix(matrix);
 		return new DijkstraGraph(matrix);
 	}
 	
@@ -95,32 +93,36 @@ public class DijkstraGraph {
 			else matrix[0][2] = (double)(int)(Math.random()*maxEdgeWeight);
 			edgesFromFirstVertex++;
 		}
-		printMatrix(matrix);
+		//printMatrix(matrix);
 		return new DijkstraGraph(matrix);
 	}
 		
 	public void dijkstra(int endVertex) {
-		int startTime = (int) System.currentTimeMillis();
+		boolean[] marked = new boolean[size];
+		runDijkstra(endVertex, marked);
+	}
+	
+	public void runDijkstra(int endVertex, boolean[] marked) {
 		Double[] path = new Double[size];	// initially null: infinity
 		Integer[] previous = new Integer[size];
 		path[0] = 0.0;
+		marked[0] = true;
 		PriorityQueue<PathVertex> pq = new PriorityQueue<PathVertex>();
 		pq.offer(new PathVertex(0, 0.0));
 		while (!pq.isEmpty()) {
 			PathVertex current = pq.poll();
 			int vertex = current.vertex;
 			double pathWeight = current.pathWeight;
-			
 			if (pathWeight == path[vertex]) {
 				for (Integer i: getNeighbors(vertex)) {
-					relaxEdge(path, previous, vertex, i);
-					pq.add(new PathVertex(i, path[i]));
+					if (!marked[i]) {
+						relaxEdge(path, previous, vertex, i);
+						pq.add(new PathVertex(i, path[i]));
+						marked[i] = true;
+					}
 				}
 			}
 		}
-		int endTime = (int) System.currentTimeMillis();
-		System.out.println("Runtime: " + (endTime - startTime) + "ms");
-		System.out.println("Total Path Weight: " + path[endVertex]);
 	}
 	
 	public void relaxEdge(Double[] path, Integer[] previous,
@@ -165,19 +167,19 @@ public class DijkstraGraph {
 	
 	public static void main(String[] args) {
 		
-		Double[][] matrix = {{ null,	0.0,	null,	2.0,	4.0},
-							   {null,	null,	null, 	null,	0.0},
-							   {7.0,	4.0,	null, 	3.0,	null},
-							   {9.0,	4.0,	5.0, 	null,	null},
-							   {null,	null,	null,	null,	null}};
-		DijkstraGraph graph = new DijkstraGraph(matrix);
-		graph.dijkstra(4);
-		DijkstraGraph linear1 = LinearGraph(5);
-		linear1.dijkstra(4);
-		DijkstraGraph branching1 = BranchingGraph(3, 2);
-		branching1.dijkstra(2);
-		DijkstraGraph random1 = RandomGraph(5, 3, 10);
-		random1.dijkstra(4);
+		//Double[][] matrix = {{ null,	0.0,	null,	2.0,	4.0},
+			//				   {null,	null,	null, 	null,	0.0},
+				//			   {7.0,	4.0,	null, 	3.0,	null},
+					//		   {9.0,	4.0,	5.0, 	null,	null},
+						//	   {null,	null,	null,	null,	null}};
+		//DijkstraGraph graph = new DijkstraGraph(matrix);
+		//graph.dijkstra(4);
+		//DijkstraGraph linear1 = LinearGraph(5);
+		//linear1.dijkstra(4);
+		//DijkstraGraph branching1 = BranchingGraph(3, 2);
+		//branching1.dijkstra(2);
+		//DijkstraGraph random1 = RandomGraph(10000, 3, 10);
+		//random1.dijkstra(9999);
 	}
 	
 	static class PathVertex implements Comparable<DijkstraGraph.PathVertex> {
